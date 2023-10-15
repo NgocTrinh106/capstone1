@@ -1,0 +1,85 @@
+﻿
+@model PagedList.IPagedList<MVCLOGIN.DbEF.Customer>
+
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List</h2>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Customer List
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>CustomerFisrtName</th>
+                    <th>CustomerLastName</th>
+                    <th>Metatitle</th>
+                    <th>ParentID</th>
+                    <th>DisplayOrder</th>
+                    <th>Seotitle</th>
+                    <th>CreateDate</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Address</th>
+                    <th>Salutation</th>
+                    <th>City</th>
+                    <th>Region</th>
+                </tr>
+            </thead>
+            @*<tfoot>
+                    <tr>
+                        <th>CustomerFisrtName</th>
+                        <th>CustomerLastName</th>
+                        <th>Metatitle</th>
+                        <th>ParentID</th>
+                        <th>DisplayOrder</th>
+                        <th>Seotitle</th>
+                        <th>CreateDate</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Address</th>
+                        <th>Salutation</th>
+                        <th>City</th>
+                        <th>Region</th>
+                    </tr>
+                </tfoot>*@
+            <tbody>
+                @foreach (var items in Model)
+                {
+                    <tr>
+                        <td>
+                            <a href="/Home/Update/?id=@Html.DisplayFor(modelitem => items.CustomerID)">Sửa</a>
+                            |
+                            <a href="/Home/Delete/" items.CustomerID>Xóa</a>
+                        </td>
+                        <td>@Html.DisplayFor(modelitem => items.CustomerFirstName)</td>
+                        <td>@Html.DisplayFor(modelitem => items.CustomerLastName)</td>
+                        <td>@Html.DisplayFor(modelitem => items.MetaTitle)</td>
+                        <td>@Html.DisplayFor(modelitem => items.CustomerParentID)</td>
+                        <td>@Html.DisplayFor(modelitem => items.DisplayOrder)</td>
+                        <td>@Html.DisplayFor(modelitem => items.SeoTitle)</td>
+                        <td>@Html.DisplayFor(modelitem => items.CreateDate)</td>
+                        <td>@Html.DisplayFor(modelitem => items.Phone)</td>
+                        <td>@Html.DisplayFor(modelitem => items.Email)</td>
+                        <td>@Html.DisplayFor(modelitem => items.Password)</td>
+                        <td>@Html.DisplayFor(modelitem => items.Address)</td>
+                        <td>@Html.DisplayFor(modelitem => items.Salutation)</td>
+                        <td>@Html.DisplayFor(modelitem => items.City)</td>
+                        <td>@Html.DisplayFor(modelitem => items.Region)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @Html.PagedListPager(Model, page => Url.Action("List", new { page }))
+    </div>
+</div>

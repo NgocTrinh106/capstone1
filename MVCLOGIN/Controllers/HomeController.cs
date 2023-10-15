@@ -1,4 +1,5 @@
-﻿using MVCLOGIN.Models;
+﻿using MVCLOGIN.DbEF;
+using MVCLOGIN.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace MVCLOGIN.Controllers
     public class HomeController : Controller
     {
         Model1 db = new Model1();
+        public ProjectDbContext db1 = new ProjectDbContext();
         public ActionResult Index()
         {
             return View();
@@ -67,6 +69,41 @@ namespace MVCLOGIN.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult List(int page = 1, int pageSize = 1)//int page = 1, int pageSize = 1
+        {
+            //return View(db1.Customers.ToList());
+            var model = new Model1();
+            var usemod = model.ListAllPaging(page, pageSize);
+            return View(usemod);
+        }
+        [HttpGet]
+        public ActionResult Update(int id)
+        {
+            var customer = new Model1().GetID(id);
+            return View(customer);
+        }
+        [HttpPost] //, ActionName("Edit")
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(Customer collection)
+        {
+
+
+            // TODO: Add update logic here
+            if (ModelState.IsValid)
+            {
+                var customer = new Model1();
+                var result = customer.UpdateCustomer(collection);
+                if (result)
+                    return RedirectToAction("List","Home");
+                else
+                {
+                    ModelState.AddModelError("", "Thêm mới không thành công.");
+                }
+            }
+
+            return View("List");
         }
     }
 }
